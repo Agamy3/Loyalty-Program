@@ -14,7 +14,14 @@ interface AuthContextType {
   signOut: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  profile: null,
+  loading: false,
+  signIn: async () => ({ error: 'Not implemented' }),
+  verifyOTP: async () => ({ error: 'Not implemented' }),
+  signOut: async () => {}
+})
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
