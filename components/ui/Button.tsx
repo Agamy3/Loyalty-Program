@@ -2,8 +2,8 @@ import React from 'react'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-export function cn(...inputs: string[]) {
-  return twMerge(clsx(inputs))
+export function cn(...inputs: (string | undefined)[]) {
+  return twMerge(clsx(inputs.filter(Boolean)))
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
