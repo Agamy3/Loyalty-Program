@@ -2,6 +2,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import type { Metadata } from 'next'
 import { AuthProvider } from '@/components/auth/AuthProvider'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: 'NFC Loyalty Program',
