@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useParams } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { supabase } from '@/lib/supabase'
@@ -10,17 +10,8 @@ import toast from 'react-hot-toast'
 import type { Store, Point, Reward } from '@/lib/auth'
 
 export default function StorePage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <StorePageContent />
-    </Suspense>
-  )
-}
-
-function StorePageContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const storeId = searchParams.get('id')
+  const params = useParams()
+  const storeId = params.storeId as string
   const { profile, loading } = useAuth()
   const [store, setStore] = useState<Store | null>(null)
   const [userPoints, setUserPoints] = useState<Point[]>([])
@@ -28,11 +19,7 @@ function StorePageContent() {
   const [loadingStore, setLoadingStore] = useState(true)
 
   useEffect(() => {
-    if (!storeId) {
-      toast.error('Store ID is required')
-      router.push('/')
-      return
-    }
+    if (!storeId) return
 
     async function loadStoreData() {
       if (!profile) return
@@ -79,7 +66,7 @@ function StorePageContent() {
     }
 
     loadStoreData()
-  }, [storeId, profile, router])
+  }, [storeId, profile])
 
   if (loading || loadingStore) {
     return (
@@ -102,7 +89,7 @@ function StorePageContent() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Store Not Found</h1>
           <p className="text-gray-600 mb-4">The store you're looking for doesn't exist.</p>
-          <Button onClick={() => router.push('/')}>Go Home</Button>
+          <Button onClick={() => window.history.back()}>Go Back</Button>
         </div>
       </div>
     )
@@ -118,7 +105,7 @@ function StorePageContent() {
               <h1 className="text-2xl font-bold text-gray-900">{store.name}</h1>
               <p className="text-gray-600">{store.description}</p>
             </div>
-            <Button onClick={() => router.push('/')}>Back</Button>
+            <Button onClick={() => window.history.back()}>Back</Button>
           </div>
         </div>
       </div>
