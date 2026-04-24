@@ -1,11 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "loyalty-program-app",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-04-24",
   "observability": {
     "enabled": true
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "assets": {
+    "directory": ".open-next/assets"
+  }
 }
