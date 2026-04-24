@@ -6,6 +6,9 @@ import React from 'react'
 export const metadata: Metadata = {
   title: 'NFC Loyalty Program',
   description: 'A modern NFC-based loyalty program for businesses',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export const viewport = {
