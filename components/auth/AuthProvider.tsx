@@ -89,12 +89,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const verifyOTP = async (phone: string, token: string) => {
-    const { data, error } = await supabase.auth.verifyOtp({
-      phone,
-      token,
-      type: 'sms',
-    })
-    return { error }
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        phone,
+        token,
+        type: 'sms',
+      })
+
+      if (error) {
+        console.error('OTP verification error:', error)
+        return { error }
+      }
+
+      if (data.user) {
+        // Update user metadata with phone and default role if not set
+        const { error: metadataError } = await supabase.auth.updateUser({
+          data: {
+            phone: phone,
+            name: data.user.user_metadata?.name || 'User',
+            role: data.user.user_metadata?.role || 'customer'
+          }
+        })
+
+        if (metadataError) {
+          console.error('Error updating user metadata:', metadataError)
+        }
+      }
+
+      return { error: null }
+    } catch (error) {
+      console.error('Unexpected error during OTP verification:', error)
+      return { error: { message: 'Unexpected error during verification' } }
+    }
   }
 
   const signOut = async () => {

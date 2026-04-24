@@ -10,13 +10,32 @@ export async function getCurrentUser() {
   const { data: { user }, error } = await supabase.auth.getUser()
   if (error || !user) return null
 
-  const { data: profile } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single()
 
-  return profile
+    if (profileError) {
+      console.error('Error fetching user profile:', profileError)
+      // Return a default profile structure if table access fails
+      return {
+        id: user.id,
+        phone: user.phone || '',
+        name: user.user_metadata?.name || 'User',
+        role: user.user_metadata?.role || 'customer',
+        store_id: user.user_metadata?.store_id || null,
+        created_at: user.created_at,
+        updated_at: user.updated_at
+      }
+    }
+
+    return profile
+  } catch (error) {
+    console.error('Unexpected error fetching user profile:', error)
+    return null
+  }
 }
 
 export async function signInWithPhone(phone: string) {
