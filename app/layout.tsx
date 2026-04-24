@@ -5,9 +5,12 @@ import React from 'react'
 
 export const metadata: Metadata = {
   title: 'NFC Loyalty Program',
-  description: 'Simple NFC-based loyalty system for small businesses',
+  description: 'A modern NFC-based loyalty program for businesses',
   viewport: 'width=device-width, initial-scale=1',
 }
+
+// Disable static generation to prevent undefined component errors
+export const dynamic = 'force-dynamic'
 
 export default function RootLayout({
   children,
