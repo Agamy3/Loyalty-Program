@@ -9,7 +9,24 @@ export function LoginForm() {
   const [otp, setOtp] = useState('')
   const [showOTP, setShowOTP] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { signIn, verifyOTP } = useAuth()
+  
+  // Try to get auth context, but provide fallback during static generation
+  let authContext
+  try {
+    authContext = useAuth()
+  } catch (error) {
+    // During static generation, use fallback values
+    authContext = {
+      user: null,
+      profile: null,
+      loading: false,
+      signIn: async () => ({ error: 'Not implemented' }),
+      verifyOTP: async () => ({ error: 'Not implemented' }),
+      signOut: async () => {}
+    }
+  }
+  
+  const { signIn, verifyOTP } = authContext
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault()
