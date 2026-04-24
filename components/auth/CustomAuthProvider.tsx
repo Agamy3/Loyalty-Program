@@ -72,7 +72,7 @@ export function CustomAuthProvider({ children }: { children: React.ReactNode }) 
       
       // For demo purposes, return the OTP so user can see it
       // In production, you wouldn't return this
-      return { otp }
+      return { error: undefined, otp }
     } catch (error) {
       return { error: 'Failed to send OTP' }
     } finally {
@@ -100,7 +100,7 @@ export function CustomAuthProvider({ children }: { children: React.ReactNode }) 
       setUser(userData)
       localStorage.setItem('loyalty_user', JSON.stringify(userData))
       
-      return { user: userData }
+      return { error: undefined, user: userData }
     } catch (error) {
       return { error: 'Failed to verify OTP' }
     } finally {
