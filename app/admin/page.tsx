@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/Button'
 import toast from 'react-hot-toast'
 import type { Store, Reward, User, Point } from '@/lib/auth'
 
+// Disable static generation to prevent undefined component errors
+export const dynamic = 'force-dynamic'
+
 export default function AdminPage() {
   const { profile, loading } = useAuth()
   const [store, setStore] = useState<Store | null>(null)

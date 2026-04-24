@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/Button'
 import toast from 'react-hot-toast'
 import type { Point, User, Store } from '@/lib/auth'
 
+// Disable static generation to prevent undefined component errors
+export const dynamic = 'force-dynamic'
+
 interface PointWithUser extends Point {
   user: User
 }

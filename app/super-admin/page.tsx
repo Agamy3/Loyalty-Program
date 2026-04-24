@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/Button'
 import toast from 'react-hot-toast'
 import type { Store, User } from '@/lib/auth'
 
+// Disable static generation to prevent undefined component errors
+export const dynamic = 'force-dynamic'
+
 export default function SuperAdminPage() {
   const { profile, loading } = useAuth()
   const [stores, setStores] = useState<Store[]>([])
