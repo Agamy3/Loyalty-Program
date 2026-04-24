@@ -1,5 +1,7 @@
 const config = {
-  buildCommand: 'npm run build'
+  default: {
+    buildCommand: 'npm run build'
+  }
 }
 
 export default config
