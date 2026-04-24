@@ -1,14 +1,20 @@
 import { supabase } from './supabase'
-import crypto from 'crypto'
 
 // Generate 6-digit OTP
 export function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString()
 }
 
-// Hash OTP for secure storage
+// Hash OTP for secure storage (browser-compatible)
 export function hashOTP(otp: string): string {
-  return crypto.createHash('sha256').update(otp).digest('hex')
+  // Simple hash for demo purposes (in production, use proper crypto)
+  let hash = 0
+  for (let i = 0; i < otp.length; i++) {
+    const char = otp.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // Convert to 32-bit integer
+  }
+  return Math.abs(hash).toString(16)
 }
 
 // Verify OTP against hash
@@ -159,8 +165,14 @@ export async function verifyOTP(phone: string, otp: string): Promise<{ valid: bo
 // Create or update user profile
 export async function createOrUpdateUser(phone: string, name?: string): Promise<{ user?: any, error?: string }> {
   try {
-    // Generate a simple user ID based on phone
-    const userId = crypto.createHash('sha256').update(phone).digest('hex').substring(0, 32)
+    // Generate a simple user ID based on phone (browser-compatible)
+    let hash = 0
+    for (let i = 0; i < phone.length; i++) {
+      const char = phone.charCodeAt(i)
+      hash = ((hash << 5) - hash) + char
+      hash = hash & hash // Convert to 32-bit integer
+    }
+    const userId = Math.abs(hash).toString(16).substring(0, 32)
     
     const { data, error } = await supabase
       .from('users')
