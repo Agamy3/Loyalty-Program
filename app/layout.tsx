@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { AuthProvider } from '@/components/auth/AuthProvider'
+import { CustomAuthProvider } from '@/components/auth/CustomAuthProvider'
 import React from 'react'
 
 export const metadata: Metadata = {
@@ -22,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
-        <AuthProvider>
+        <CustomAuthProvider>
           {children}
-        </AuthProvider>
+        </CustomAuthProvider>
       </body>
     </html>
   )

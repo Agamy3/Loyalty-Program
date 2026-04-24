@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAuth } from '@/components/auth/AuthProvider'
-import { LoginForm } from '@/components/auth/LoginForm'
+import { useCustomAuth } from '@/components/auth/CustomAuthProvider'
+import { CustomLoginForm } from '@/components/auth/CustomLoginForm'
 import { Button } from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import type { Store } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 
 export default function HomePage() {
-  const { profile, loading } = useAuth()
+  const { user, loading } = useCustomAuth()
   const router = useRouter()
   const [stores, setStores] = useState<Store[]>([])
   const [loadingStores, setLoadingStores] = useState(true)
@@ -45,7 +45,7 @@ export default function HomePage() {
     )
   }
 
-  if (!profile) {
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full space-y-8 p-8">
@@ -57,7 +57,7 @@ export default function HomePage() {
               Sign in to access your account
             </p>
           </div>
-          <LoginForm />
+          <CustomLoginForm />
         </div>
       </div>
     )
@@ -67,8 +67,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome, {profile.name}!</h1>
-          <p className="text-gray-600 mt-2">Role: {profile.role}</p>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome, {user.name}!</h1>
+          <p className="text-gray-600 mt-2">Role: {user.role}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -93,17 +93,17 @@ export default function HomePage() {
         )}
 
         <div className="mt-8 flex justify-center space-x-4">
-          {profile.role === 'super_admin' && (
+          {user.role === 'super_admin' && (
             <Button onClick={() => router.push('/super-admin')}>
               Super Admin Panel
             </Button>
           )}
-          {(profile.role === 'owner' || profile.role === 'staff') && (
+          {(user.role === 'owner' || user.role === 'staff') && (
             <Button onClick={() => router.push('/admin')}>
               Admin Panel
             </Button>
           )}
-          {profile.role === 'staff' && (
+          {user.role === 'staff' && (
             <Button onClick={() => router.push('/staff')}>
               Staff Panel
             </Button>
