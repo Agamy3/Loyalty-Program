@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "loyalty-program-app",
+  "name": "loyalty-program",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-04-24",
   "observability": {
