@@ -1,6 +1,5 @@
 const config = {
   default: {
-    buildCommand: 'next build',
     override: {
       wrapper: "cloudflare-node",
       converter: "edge",
