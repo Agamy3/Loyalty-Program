@@ -7,8 +7,8 @@ import { generateOTP, sendOTPEmail, storeOTP, verifyOTP, createOrUpdateUser } fr
 interface CustomAuthContextType {
   user: User | null
   loading: boolean
-  signIn: (phone: string) => Promise<{ error?: string, otp?: string }>
-  verifyOTP: (phone: string, otp: string) => Promise<{ error?: string, user?: User }>
+  signIn: (phone: string) => Promise<{ error?: string | undefined, otp?: string | undefined }>
+  verifyOTP: (phone: string, otp: string) => Promise<{ error?: string | undefined, user?: User | undefined }>
   signOut: () => Promise<void>
 }
 

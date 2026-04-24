@@ -17,17 +17,16 @@ export function CustomLoginForm() {
     if (!phone) return
 
     const result = await signIn(phone)
-    const { error, otp: generatedOTP } = result
     
-    if (error) {
-      toast.error(error)
+    if (result.error) {
+      toast.error(result.error)
     } else {
       toast.success('OTP sent successfully!')
       setShowOTP(true)
       // For demo purposes, show the OTP
-      if (generatedOTP) {
-        setDemoOTP(generatedOTP)
-        toast.success(`Demo OTP: ${generatedOTP} (check console)`)
+      if ('otp' in result && result.otp) {
+        setDemoOTP(result.otp)
+        toast.success(`Demo OTP: ${result.otp} (check console)`)
       }
     }
   }
@@ -37,10 +36,9 @@ export function CustomLoginForm() {
     if (!phone || !otp) return
 
     const verifyResult = await verifyOTP(phone, otp)
-    const { error, user } = verifyResult
     
-    if (error) {
-      toast.error(error)
+    if (verifyResult.error) {
+      toast.error(verifyResult.error)
     } else {
       toast.success('Login successful!')
     }
