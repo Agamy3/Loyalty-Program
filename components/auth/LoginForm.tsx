@@ -36,7 +36,8 @@ export function LoginForm() {
     const { error } = await signIn(phone)
     
     if (error) {
-      toast.error('Failed to send OTP')
+      toast.error(`Failed to send OTP: ${error.message}`)
+      console.error('OTP Error:', error)
     } else {
       toast.success('OTP sent successfully!')
       setShowOTP(true)
